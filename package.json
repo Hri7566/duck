@@ -1,0 +1,11 @@
+{
+  "name": "duck",
+  "version": "1.0.0",
+  "description": "duck birb",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon"
+  },
+  "author": "Hri7566",
+  "license": "ISC"
+}
