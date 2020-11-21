@@ -1,0 +1,7 @@
+{
+    "ignore": [
+        "*.json",
+        "bot/*"
+    ],
+    "exec": "cd src; ../node_modules/.bin/tsc; cd ..; node ."
+}

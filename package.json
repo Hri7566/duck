@@ -7,5 +7,12 @@
     "test": "nodemon"
   },
   "author": "Hri7566",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.4.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.2"
+  }
 }
