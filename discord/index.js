@@ -18,6 +18,7 @@ module.exports = class {
         this.token = token;
         this.client = new Discord.Client();
         this.cb = cb;
+        this.msg = {};
     }
 
     cb(msg) {
@@ -26,6 +27,10 @@ module.exports = class {
 
     log(str) {
         console.log(`Discord: ${str}`);
+    }
+
+    chat(str) {
+        this.msg.channel.send(`\u034f${str}`);
     }
 
     start() {

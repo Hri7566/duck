@@ -3,5 +3,9 @@
         "*.json",
         "bot/*"
     ],
+    "extensions": [
+        "js",
+        "ts"
+    ],
     "exec": "cd src; ../node_modules/.bin/tsc; cd ..; node ."
 }

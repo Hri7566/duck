@@ -3,6 +3,11 @@
         "target": "es5",
         "module": "commonjs",
         "allowJs": true,
-        "outDir": "../bot"
-    }
+        "outDir": "../bot",
+        "resolveJsonModule": true
+    },
+    "include": [
+        "commands/**/*",
+        "**/*"
+    ]
 }
