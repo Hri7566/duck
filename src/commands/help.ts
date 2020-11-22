@@ -18,16 +18,16 @@ command = {
                                     ret += ` ${cmd.cmd}, `;
                                     break;
                                 case "object":
-                                    ret += ` ${cmd.cmd}, `
+                                    ret += ` ${cmd.cmd[0]}, `
                                     break;
                             }
                         } else {
                             switch (typeof(cmd.cmd)) {
                                 case "string":
-                                    ret += ` ${cmd.cmd}, `;
+                                    ret += ` ${msg.bot.prefixes[0]}${cmd.cmd}, `;
                                     break;
                                 case "object":
-                                    ret += ` ${msg.bot.prefixes[0]}${cmd.cmd}, `
+                                    ret += ` ${msg.bot.prefixes[0]}${cmd.cmd[0]}, `
                                     break;
                             }
                         }

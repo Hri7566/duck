@@ -16,17 +16,17 @@ command = {
                                     ret_1 += " " + cmd.cmd + ", ";
                                     break;
                                 case "object":
-                                    ret_1 += " " + cmd.cmd + ", ";
+                                    ret_1 += " " + cmd.cmd[0] + ", ";
                                     break;
                             }
                         }
                         else {
                             switch (typeof (cmd.cmd)) {
                                 case "string":
-                                    ret_1 += " " + cmd.cmd + ", ";
+                                    ret_1 += " " + msg.bot.prefixes[0] + cmd.cmd + ", ";
                                     break;
                                 case "object":
-                                    ret_1 += " " + msg.bot.prefixes[0] + cmd.cmd + ", ";
+                                    ret_1 += " " + msg.bot.prefixes[0] + cmd.cmd[0] + ", ";
                                     break;
                             }
                         }
