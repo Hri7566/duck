@@ -2,7 +2,7 @@
 var command;
 command = {
     cmd: "help",
-    usage: "Usage: PREFIXhelp",
+    usage: "here, i teach: PREFIXhelp (command)",
     minargs: 0,
     func: function (msg) {
         if (msg.argcat == "") {

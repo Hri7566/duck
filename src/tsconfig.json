@@ -4,7 +4,8 @@
         "module": "commonjs",
         "allowJs": true,
         "outDir": "../bot",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "esModuleInterop": true
     },
     "include": [
         "commands/**/*",

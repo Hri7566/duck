@@ -50,6 +50,7 @@ module.exports = class {
                 _id: msg.author.id
             }
             msg.args = msg.a.split(' ');
+            msg.discord = this;
             this.cb(msg);
         });
     }

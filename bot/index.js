@@ -1,11 +1,31 @@
 "use strict";
-var gConfig = require("./config.json");
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var gConfig = __importStar(require("./config.json"));
 var fs = require("fs");
 var Bot = /** @class */ (function () {
     function Bot() {
         this.prefixes;
         this.config = gConfig;
         this.prefixes = this.config.prefixes;
+        this.ranks = require('./ranks.json');
         this.commands = [];
     }
     Bot.prototype.start = function () {
@@ -20,42 +40,62 @@ var Bot = /** @class */ (function () {
     Bot.prototype.log = function (str) {
         console.log("Bot: " + str);
     };
-    Bot.prototype.f = function (msg, prefix) {
+    Bot.prototype.f = function (msg) {
+        var _this = this;
         var ret = "";
-        msg.p.rank = {
-            name: "User",
-            id: 0
-        };
-        if (msg.a.startsWith(prefix)) {
-            var ret_1;
+        msg.a = msg.content;
+        msg.bot = this;
+        msg.p.rank = this.getRank(msg.p);
+        msg.args = msg.a.split(' ');
+        var hasPrefix = false;
+        this.prefixes.forEach(function (prefix) {
+            if (msg.a.includes(prefix)) {
+                hasPrefix = true;
+            }
+            switch (_this.config.prefixStyle) {
+                case "word":
+                    msg.cmd = msg.args[1];
+                    msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    break;
+                default:
+                    msg.cmd = msg.args[0].split(prefix).join('');
+                    msg.argcat = msg.a.substring(msg.cmd.length + prefix.length).trim();
+                    break;
+            }
+        });
+        if (hasPrefix) {
             this.commands.forEach(function (cmd) {
-                if (msg.p.rank.id >= 0) {
-                    if (msg.p.rank.id >= cmd.minrank) {
-                        switch (typeof (cmd.cmd)) {
-                            case "string":
-                                if (msg.cmd == cmd.cmd) {
-                                    ret_1 = cmd.func(msg);
-                                }
-                                break;
-                            case "object":
-                                cmd.cmd.forEach(function (c) {
-                                    if (msg.cmd == c) {
-                                        ret_1 = cmd.func(msg);
-                                    }
-                                });
-                                break;
-                        }
-                    }
-                    else {
-                        ret_1 = "no perms, birb friend";
+                var runCommand = false;
+                if (typeof (cmd.cmd) == "string") {
+                    if (msg.cmd == cmd.cmd) {
+                        runCommand = true;
                     }
                 }
                 else {
-                    ret_1 = "u is ban";
+                    cmd.cmd.forEach(function (c) {
+                        if (msg.cmd == c) {
+                            runCommand = true;
+                        }
+                    });
+                }
+                if (runCommand) {
+                    if (msg.p.rank.id >= 0) {
+                        if (msg.p.rank.id >= cmd.minrank) {
+                            ret = cmd.func(msg);
+                        }
+                        else {
+                            ret = msg.p.name + " thought they could use " + msg.cmd + "!";
+                        }
+                    }
+                    else {
+                        ret = "no u banned!";
+                    }
+                }
+                else {
                 }
             });
-            return ret_1;
         }
+        return ret;
     };
     Bot.prototype.getUsage = function (cmd) {
         var _this = this;
@@ -90,6 +130,17 @@ var Bot = /** @class */ (function () {
         });
         if (ret == "") {
             ret = "i don't see " + cmd;
+        }
+        return ret;
+    };
+    Bot.prototype.getRank = function (p) {
+        var ret;
+        var ranks = this.ranks;
+        for (var id in ranks) {
+            var rp = ranks[id];
+            if (id == p._id) {
+                ret = rp;
+            }
         }
         return ret;
     };
