@@ -4,7 +4,7 @@ let command: Command;
 
 command = {
     cmd: "help",
-    usage: `here, i teach: PREFIXhelp (command)`,
+    usage: `i teach: PREFIXhelp (command)`,
     minargs: 0,
     func: msg => {
         if (msg.argcat == "") {
