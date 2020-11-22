@@ -35,6 +35,7 @@ command = {
             });
             ret_1 = ret_1.trim();
             ret_1 = ret_1.substring(0, ret_1.length - 1);
+            ret_1 = ret_1.replace(/ +(?= )/g, "");
             return ret_1;
         }
         else {

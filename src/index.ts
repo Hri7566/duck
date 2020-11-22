@@ -116,6 +116,8 @@ class Bot {
             ret = `i don't see ${cmd}`;
         }
 
+        ret = ret.replace(/ +(?= )/g, "");
+
         return ret;
     }
 

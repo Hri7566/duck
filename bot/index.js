@@ -131,6 +131,7 @@ var Bot = /** @class */ (function () {
         if (ret == "") {
             ret = "i don't see " + cmd;
         }
+        ret = ret.replace(/ +(?= )/g, "");
         return ret;
     };
     Bot.prototype.getRank = function (p) {

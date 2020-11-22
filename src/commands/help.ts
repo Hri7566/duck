@@ -36,6 +36,7 @@ command = {
             });
             ret = ret.trim()
             ret = ret.substring(0, ret.length - 1);
+            ret = ret.replace(/ +(?= )/g, "");
             return ret;
         } else {
             let ret;
