@@ -14,7 +14,7 @@ var discord = new Discord(TOKEN, msg => {
     if (msg.p._id == discord.client.user.id) return;
     discord.msg = msg;
     ret = bot.f(msg);
-    if (typeof(ret) == "undefined") return;
+    if (typeof(ret) == "undefined" || ret == "") return;
     discord.chat(ret);
 });
 
