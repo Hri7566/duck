@@ -84,8 +84,14 @@ class Bot {
                 if (runCommand) {
                     if (msg.p.rank.id >= 0) {
                         if (msg.p.rank.id >= cmd.minrank) {
-                            if (msg.args.length >= cmd.minargs) {
+                            let num = 1;
+                            if (this.config.prefixStyle == "word") {
+                                num = 2;
+                            }
+                            if (msg.args.length >= cmd.minargs + num) {
                                 ret = cmd.func(msg);
+                            } else {
+                                ret = this.getUsage(msg.cmd);
                             }
                         } else {
                             ret = `${msg.p.name} thought they could use ${msg.cmd}!`;

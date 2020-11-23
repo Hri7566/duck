@@ -95,8 +95,15 @@ var Bot = /** @class */ (function () {
                 if (runCommand) {
                     if (msg.p.rank.id >= 0) {
                         if (msg.p.rank.id >= cmd.minrank) {
-                            if (msg.args.length >= cmd.minargs) {
+                            var num = 1;
+                            if (_this.config.prefixStyle == "word") {
+                                num = 2;
+                            }
+                            if (msg.args.length >= cmd.minargs + num) {
                                 ret = cmd.func(msg);
+                            }
+                            else {
+                                ret = _this.getUsage(msg.cmd);
                             }
                         }
                         else {
