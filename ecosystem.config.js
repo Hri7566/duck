@@ -5,6 +5,9 @@ module.exports = {
     ignore_watch: [
       "*.json",
       "*.log"
+    ],
+    args: [
+      "--color"
     ]
   }, {
     script: './service-worker/',

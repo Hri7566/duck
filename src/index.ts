@@ -3,6 +3,7 @@ import fs = require('fs');
 import Command = require('./Command');
 import Rank = require('./Rank');
 import chalk = require('chalk');
+import Ranks = require('./Ranks');
 
 class Bot {
     prefixes: Array<string>;
@@ -145,6 +146,39 @@ class Bot {
             return 'Console: ' + eval(str);
         } catch (err) {
             return err;
+        }
+    }
+
+    saveRanks() {
+        fs.writeFile(__dirname+'/ranks.json', JSON.stringify(this.ranks), {encoding: 'utf-8'}, () => {
+            this.log('Ranks saved');
+        });
+    }
+
+    setRank(p: any, rank: Ranks) {
+        if (typeof(p) == 'undefined' || typeof(p._id) == 'undefined') return;
+        switch (rank) {
+            case Ranks.OWNER:
+                this.ranks[p._id] = {
+                    name: "Owner",
+                    id: 2,
+                    rank: rank
+                };
+                break;
+            case Ranks.ADMIN:
+                this.ranks[p._id] = {
+                    name: "Admin",
+                    id: 1,
+                    rank: rank
+                };
+                break;
+            case Ranks.USER:
+            default:
+                this.ranks[p._id] = {
+                    name: "User",
+                    id: 0,
+                    rank: rank
+                }
         }
     }
 }
