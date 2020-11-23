@@ -20,6 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 var gConfig = __importStar(require("./config.json"));
 var fs = require("fs");
+var chalk = require("chalk");
 var Bot = /** @class */ (function () {
     function Bot() {
         this.prefixes;
@@ -40,6 +41,9 @@ var Bot = /** @class */ (function () {
     Bot.prototype.log = function (str) {
         console.log("Bot: " + str);
     };
+    Bot.prototype.warn = function (str) {
+        this.log(chalk.yellow("Warning: " + str));
+    };
     Bot.prototype.f = function (msg) {
         var _this = this;
         var ret = "";
@@ -54,8 +58,10 @@ var Bot = /** @class */ (function () {
             }
             switch (_this.config.prefixStyle) {
                 case "word":
-                    msg.cmd = msg.args[1];
-                    msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    if (msg.args[1]) {
+                        msg.cmd = msg.args[1];
+                        msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    }
                     break;
                 default:
                     msg.cmd = msg.args[0].split(prefix).join('');
@@ -144,6 +150,14 @@ var Bot = /** @class */ (function () {
             }
         }
         return ret;
+    };
+    Bot.prototype.runInContext = function (str) {
+        try {
+            return 'Console: ' + eval(str);
+        }
+        catch (err) {
+            return err;
+        }
     };
     return Bot;
 }());

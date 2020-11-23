@@ -2,6 +2,7 @@ import * as gConfig from './config.json';
 import fs = require('fs');
 import Command = require('./Command');
 import Rank = require('./Rank');
+import chalk = require('chalk');
 
 class Bot {
     prefixes: Array<string>;
@@ -29,6 +30,10 @@ class Bot {
         console.log(`Bot: ${str}`);
     }
 
+    warn(str) {
+        this.log(chalk.yellow(`Warning: ${str}`));
+    }
+
     f(msg: any) {
         let ret = "";
         msg.a = msg.content;
@@ -43,8 +48,10 @@ class Bot {
             }
             switch (this.config.prefixStyle) {
                 case "word":
-                    msg.cmd = msg.args[1];
-                    msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    if (msg.args[1]) {
+                        msg.cmd = msg.args[1];
+                        msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    }
                     break;
                 default:
                     msg.cmd = msg.args[0].split(prefix).join('');
@@ -131,6 +138,14 @@ class Bot {
             }
         }
         return ret;
+    }
+
+    runInContext(str) {
+        try {
+            return 'Console: ' + eval(str);
+        } catch (err) {
+            return err;
+        }
     }
 }
 
