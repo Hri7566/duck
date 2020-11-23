@@ -20,6 +20,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 var gConfig = __importStar(require("./config.json"));
 var fs = require("fs");
+var chalk = require("chalk");
+var Ranks = require("./Ranks");
 var Bot = /** @class */ (function () {
     function Bot() {
         this.prefixes;
@@ -40,6 +42,9 @@ var Bot = /** @class */ (function () {
     Bot.prototype.log = function (str) {
         console.log("Bot: " + str);
     };
+    Bot.prototype.warn = function (str) {
+        this.log(chalk.yellow("Warning: " + str));
+    };
     Bot.prototype.f = function (msg) {
         var _this = this;
         var ret = "";
@@ -54,8 +59,10 @@ var Bot = /** @class */ (function () {
             }
             switch (_this.config.prefixStyle) {
                 case "word":
-                    msg.cmd = msg.args[1];
-                    msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    if (msg.args[1]) {
+                        msg.cmd = msg.args[1];
+                        msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    }
                     break;
                 default:
                     msg.cmd = msg.args[0].split(prefix).join('');
@@ -144,6 +151,47 @@ var Bot = /** @class */ (function () {
             }
         }
         return ret;
+    };
+    Bot.prototype.runInContext = function (str) {
+        try {
+            return 'Console: ' + eval(str);
+        }
+        catch (err) {
+            return err;
+        }
+    };
+    Bot.prototype.saveRanks = function () {
+        var _this = this;
+        fs.writeFile(__dirname + '/ranks.json', JSON.stringify(this.ranks), { encoding: 'utf-8' }, function () {
+            _this.log('Ranks saved');
+        });
+    };
+    Bot.prototype.setRank = function (p, rank) {
+        if (typeof (p) == 'undefined' || typeof (p._id) == 'undefined')
+            return;
+        switch (rank) {
+            case Ranks.OWNER:
+                this.ranks[p._id] = {
+                    name: "Owner",
+                    id: 2,
+                    rank: rank
+                };
+                break;
+            case Ranks.ADMIN:
+                this.ranks[p._id] = {
+                    name: "Admin",
+                    id: 1,
+                    rank: rank
+                };
+                break;
+            case Ranks.USER:
+            default:
+                this.ranks[p._id] = {
+                    name: "User",
+                    id: 0,
+                    rank: rank
+                };
+        }
     };
     return Bot;
 }());

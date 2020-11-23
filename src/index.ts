@@ -2,6 +2,8 @@ import * as gConfig from './config.json';
 import fs = require('fs');
 import Command = require('./Command');
 import Rank = require('./Rank');
+import chalk = require('chalk');
+import Ranks = require('./Ranks');
 
 class Bot {
     prefixes: Array<string>;
@@ -29,6 +31,10 @@ class Bot {
         console.log(`Bot: ${str}`);
     }
 
+    warn(str) {
+        this.log(chalk.yellow(`Warning: ${str}`));
+    }
+
     f(msg: any) {
         let ret = "";
         msg.a = msg.content;
@@ -43,8 +49,10 @@ class Bot {
             }
             switch (this.config.prefixStyle) {
                 case "word":
-                    msg.cmd = msg.args[1];
-                    msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    if (msg.args[1]) {
+                        msg.cmd = msg.args[1];
+                        msg.argcat = msg.a.substring(msg.args[0].length + msg.args[1].length + 1).trim();
+                    }
                     break;
                 default:
                     msg.cmd = msg.args[0].split(prefix).join('');
@@ -131,6 +139,47 @@ class Bot {
             }
         }
         return ret;
+    }
+
+    runInContext(str) {
+        try {
+            return 'Console: ' + eval(str);
+        } catch (err) {
+            return err;
+        }
+    }
+
+    saveRanks() {
+        fs.writeFile(__dirname+'/ranks.json', JSON.stringify(this.ranks), {encoding: 'utf-8'}, () => {
+            this.log('Ranks saved');
+        });
+    }
+
+    setRank(p: any, rank: Ranks) {
+        if (typeof(p) == 'undefined' || typeof(p._id) == 'undefined') return;
+        switch (rank) {
+            case Ranks.OWNER:
+                this.ranks[p._id] = {
+                    name: "Owner",
+                    id: 2,
+                    rank: rank
+                };
+                break;
+            case Ranks.ADMIN:
+                this.ranks[p._id] = {
+                    name: "Admin",
+                    id: 1,
+                    rank: rank
+                };
+                break;
+            case Ranks.USER:
+            default:
+                this.ranks[p._id] = {
+                    name: "User",
+                    id: 0,
+                    rank: rank
+                }
+        }
     }
 }
 
