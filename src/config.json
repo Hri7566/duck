@@ -1,7 +1,8 @@
 {
     "prefixes": [
         "ducky",
-        "duck"
+        "duck",
+        "d"
     ],
     "prefixStyle": "word"
 }

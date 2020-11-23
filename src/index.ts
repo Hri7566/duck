@@ -40,6 +40,13 @@ class Bot {
         msg.a = msg.content;
         msg.bot = this;
         msg.p.rank = this.getRank(msg.p);
+        if (typeof(msg.p.rank) == 'undefined') {
+            msg.p.rank = {
+                name: "User",
+                id: 0,
+                rank: Ranks.USER
+            }
+        }
         msg.args = msg.a.split(' ');
 
         let hasPrefix = false;
@@ -77,7 +84,9 @@ class Bot {
                 if (runCommand) {
                     if (msg.p.rank.id >= 0) {
                         if (msg.p.rank.id >= cmd.minrank) {
-                            ret = cmd.func(msg);
+                            if (msg.args.length >= cmd.minargs) {
+                                ret = cmd.func(msg);
+                            }
                         } else {
                             ret = `${msg.p.name} thought they could use ${msg.cmd}!`;
                         }

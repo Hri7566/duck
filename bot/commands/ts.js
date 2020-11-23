@@ -7,7 +7,7 @@ command = {
     func: function (msg) {
         return msg.bot.runInContext(msg.argcat);
     },
-    minrank: 4,
+    minrank: 2,
     hidden: false
 };
 module.exports = command;
