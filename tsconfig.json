@@ -3,12 +3,12 @@
         "target": "es5",
         "module": "commonjs",
         "allowJs": true,
-        "outDir": "../bot",
+        "outDir": "bot",
         "resolveJsonModule": true,
         "esModuleInterop": true
     },
     "include": [
-        "commands/**/*",
-        "**/*"
+        "./src/commands/**/*",
+        "./src/**/*"
     ]
 }

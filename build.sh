@@ -1,3 +1,3 @@
 #!/bin/bash
-echo "Building TypeScript..."; cd src; ../node_modules/.bin/tsc; cd ..; echo "Done."
+echo "Building TypeScript..."; ./node_modules/.bin/tsc
 echo "Restarting process..."; pm2 restart duck
