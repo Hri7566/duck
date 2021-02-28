@@ -1,11 +1,22 @@
 {
   "name": "duck",
   "version": "1.0.0",
-  "description": "duck birb",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Hri7566",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hri7566/duck.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hri7566/duck/issues"
+  },
+  "homepage": "https://github.com/Hri7566/duck#readme",
+  "dependencies": {
+    "discord.js": "12.4.0"
+  }
 }

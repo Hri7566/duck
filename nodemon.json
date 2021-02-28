@@ -1,0 +1,11 @@
+{
+    "ignore": [
+        "*.json",
+        "bot/*"
+    ],
+    "extensions": [
+        "js",
+        "ts"
+    ],
+    "exec": "cd src"
+}
